@@ -1,93 +1,125 @@
-let navbar = document.querySelector('.navbar')
+console.log("Cart JS Loaded");
+let navbar = document.querySelector(".navbar");
+let searchform = document.querySelector(".search-form");
+let cartItem = document.querySelector(".cart-items-container");
 
 
-document.querySelector('#menu-btn').onclick =()=>{
-
-   searchform.classList.remove('active');
-   cartItem.classList.remove('active');
-
-   navbar.classList.toggle('active');
-
-}
-
-let searchform = document.querySelector('.search-form')
-
- document.querySelector('#search-btn').onclick =()=>{
-
-    navbar.classList.remove('active');
-    cartItem.classList.remove('active');
-
-    searchform.classList.toggle('active')
-    
-}
-
-let cartItem = document.querySelector('.cart-items-container')
-
- document.querySelector('#cart-btn').onclick =()=>{
-
-    searchform.classList.remove('active');
-    navbar.classList.remove('active');
-
-    cartItem.classList.toggle('active')
-    
-    
-}
+const cartItems = document.getElementById("cart-items");
+const cartTotal = document.getElementById("cart-total");
 
 
+console.log(cartItems);
+console.log(cartTotal);
 
+// Open / Close Cart
+document.querySelector("#cart-btn").onclick = function(e){
 
-let sections = document.querySelectorAll('section');
-let navLinks = document.querySelectorAll('.navbar a');
+    e.stopPropagation();
 
-window.onscroll = () => {
+    navbar.classList.remove("active");
+    searchform.classList.remove("active");
 
-   navbar.classList.remove('active');
-   searchform.classList.remove('active');
-   cartItem.classList.remove('active');
-
-    let current = '';
-
-    sections.forEach(section => {
-
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
-        if(pageYOffset >= sectionTop - 200 &&
-           pageYOffset < sectionTop + sectionHeight - 200){
-
-            current = section.getAttribute('id');
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove('active');
-
-        if(link.getAttribute('href') === `#${current}`){
-            link.classList.add('active');
-        }
-
-    });
+    cartItem.classList.toggle("active");
 
 };
 
-document.querySelectorAll('.navbar a').forEach(link => {
+let cart = [];
 
-   link.onclick = () => {
-       navbar.classList.remove('active');
-   }
+document.querySelectorAll(".add-to-cart").forEach(btn=>{
+
+    btn.onclick=(e)=>{
+
+        e.preventDefault();
+        console.log("Button Clicked");
+
+        const item={
+            name:btn.dataset.name,
+            price:Number(btn.dataset.price),
+            image:btn.dataset.img,
+            qty:1
+        };
+
+        const exist=cart.find(product=>product.name===item.name);
+
+        if(exist){
+
+            exist.qty++;
+
+        }else{
+
+            cart.push(item);
+
+        }
+
+        updateCart();
+
+    }
 
 });
 
-document.addEventListener('click', (e) => {
+function updateCart(){
 
-   if(
-       !e.target.closest('.navbar') &&
-       !e.target.closest('#menu-btn')
-   ){
-       navbar.classList.remove('active');
-   }
+    console.log("updateCart called");
+    console.log(cart);
 
-});
+    cartItems.innerHTML="";
 
+    let total=0;
+
+    cart.forEach((item,index)=>{
+
+        total+=item.price*item.qty;
+
+        cartItems.innerHTML+=`
+
+        <div class="cart-item">
+
+            <span class="fa fa-times remove-item" data-index="${index}"></span>
+
+            <img src="${item.image}">
+
+            <div class="content">
+
+                <h3>${item.name}</h3>
+
+                <div class="price">
+
+                $${item.price.toFixed(2)} × ${item.qty}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    cartTotal.innerHTML="$"+total.toFixed(2);
+
+    document.querySelectorAll(".remove-item").forEach(btn=>{
+
+        btn.onclick=()=>{
+
+            cart.splice(btn.dataset.index,1);
+
+            updateCart();
+
+        }
+
+    });
+
+}
+
+// // Close cart when clicking outside
+// document.addEventListener("click", function(e){
+
+//     if(
+//         !e.target.closest(".cart-items-container") &&
+//         !e.target.closest("#cart-btn")
+//     ){
+//         cartItem.classList.remove("active");
+//     }
+
+// });

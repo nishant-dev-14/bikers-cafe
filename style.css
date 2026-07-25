@@ -169,58 +169,87 @@ section{
 
 }
 
+/* ================= CART ================= */
+
 .header .cart-items-container{
     position: absolute;
-    top: 100%; right: -100%;
-    height: calc(100vh - 9.5rem);
+    top: 100%;
+    right: -100%;
     width: 35rem;
-    background: #FFF;
-    padding: 0 1.5rem;
+    height: calc(100vh - 9rem);
+    background: #fff;
+    padding: 2rem;
+    overflow-y: auto;
+    box-shadow: 0 .5rem 2rem rgba(0,0,0,.4);
+    z-index: 9999;
 }
 
 .header .cart-items-container.active{
-    right: 0%;
+    right: 0;
 }
 
-
-.header .cart-items-container .cart-item{
-    position: relative;
-    margin: 2rem 0;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    position:relative;
+    padding:1rem 0;
+    border-bottom:1px solid #ddd;
+    background:#fff;
 }
 
-.header .cart-items-container .cart-item .fa-times{
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 2rem;
-    cursor: pointer;
-    color: var(--back);
-}
-.header .cart-items-container .cart-item .fa-times:hover{
-    color: var(--main-color);
-}
-.header .cart-items-container .cart-item img {
-    height: 7rem;
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    position:relative;
+    border-bottom:1px solid #ddd;
+    padding-bottom:1rem;
 }
 
-.header .cart-items-container .cart-item h3 {
-    font-size: 2rem;
-    color: var(--back);
+.cart-item img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
 }
 
-.header .cart-items-container .cart-item .price {
-    font-size: 1.5rem;
-    color: var(--main-color);
+.cart-item .content{
+    flex:1;
 }
 
-.header .cart-items-container .btn{
-    width: 100%;
-    text-align: center;
+.cart-item .content h3{
+    font-size:1.7rem;
+    color:var(--back);
 }
 
+.cart-item .price{
+    color:var(--main-color);
+    font-size:1.5rem;
+}
+
+.remove-item{
+    position:absolute;
+    right:0;
+    top:10px;
+    color:red;
+    cursor:pointer;
+    /* gap: 10px; */
+}
+
+.remove-item:hover{
+    transform:scale(1.1);
+}
+
+.cart-total{
+    text-align:center;
+    font-size:2rem;
+    margin:2rem 0;
+    font-weight:bold;
+}
+
+.cart-items-container .btn{
+    width:100%;
+}
 
 
 /* New style added here  */
